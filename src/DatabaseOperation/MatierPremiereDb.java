@@ -36,7 +36,7 @@ public class MatierPremiereDb {
             prepare.setInt(2,a.getIDFournisseur());
             prepare.setString(3,a.getDesignationMp());
             prepare.setDouble(4,a.getPrixAchat());
-            prepare.setBlob(5,a.getImageFac());
+            prepare.setBytes(5,a.getImageFac());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -58,7 +58,7 @@ public class MatierPremiereDb {
                     res.getInt("IDMatierePremiere"),
                     res.getString("designationMp"),
                     res.getDouble("PrixAchat"),
-                    res.getBlob("imageFac"),
+                    res.getBytes("imageFac"),
                     res.getInt("IDFournisseur"));
                     mp.add(a);
                 }
@@ -78,7 +78,7 @@ public class MatierPremiereDb {
             prepare.setInt(2, a.getIDFournisseur());
             prepare.setString(3, a.getDesignationMp());
             prepare.setDouble(4, a.getPrixAchat());
-            prepare.setBlob(5, a.getImageFac());
+            prepare.setBytes(5, a.getImageFac());
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {

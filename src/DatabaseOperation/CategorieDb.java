@@ -27,15 +27,14 @@ public class CategorieDb {
     private static PreparedStatement prepare;
 
     
-    public void ajouterCategorie(Categorie categorie ){
+    public static void ajouterCategorie(Categorie categorie ){
       try{
 
-            String sql="INSERT INTO categorie (IDCategorie,libCat,desCat,imgCat) VALUES (?,?,?,?,?,?)";
+            String sql="INSERT INTO categorie (libCat,descCat,imgCat) VALUES (?,?,?)";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1,categorie.getIdCat());
-            prepare.setString(2,categorie.getLibCat());
-            prepare.setString(3,categorie.getDescCat());
-            prepare.setBlob(4,categorie.getImgCat());  
+            prepare.setString(1,categorie.getLibCat());
+            prepare.setString(2,categorie.getDescCat());
+            prepare.setBytes(3,categorie.getImgCat());  
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -50,14 +49,14 @@ public class CategorieDb {
        
         try {
             
-                String req="SELECT IDCategorie,libCat,desCat,imgCat FROM categorie";
+                String req="SELECT libCat,desCat,imgCat FROM categorie";
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     c=new Categorie(
-                    res.getInt("IDCategorie"),
+                    
                     res.getString("libCat"),
                     res.getString("desCat"),
-                    res.getBlob("imgCat"));
+                    res.getBytes("imgCat"));
                     categorie.add(c);
                 }
                 return categorie;        
@@ -74,7 +73,7 @@ public class CategorieDb {
             prepare.setInt(1, a.getIdCat());
             prepare.setString(2, a.getLibCat());
             prepare.setString(3, a.getDescCat());
-            prepare.setBlob(4, a.getImgCat());
+            prepare.setBytes(4, a.getImgCat());
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {

@@ -13,11 +13,11 @@ public class MatierPremiere {
    private int idMp;
    private String designationMp;
    private double prixAchat;
-   private Blob imageFac;
+   private byte[] imageFac;
    private int IDFournisseur;
 
     public MatierPremiere(int idMp, String designationMp, 
-            double prixAchat, Blob imageFac,int IDFournisseur) {
+            double prixAchat, byte[] imageFac,int IDFournisseur) {
         this.idMp = idMp;
         this.designationMp = designationMp;
         this.prixAchat = prixAchat;
@@ -49,11 +49,11 @@ public class MatierPremiere {
         this.prixAchat = prixAchat;
     }
 
-    public Blob getImageFac() {
+    public byte[] getImageFac() {
         return imageFac;
     }
 
-    public void setImageFac(Blob imageFac) {
+    public void setImageFac(byte[] imageFac) {
         this.imageFac = imageFac;
     }
 

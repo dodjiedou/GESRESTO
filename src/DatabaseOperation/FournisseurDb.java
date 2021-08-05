@@ -40,7 +40,7 @@ public class FournisseurDb {
             prepare.setString(4,a.getSociete());
             prepare.setInt(5,a.getTelFour());
             prepare.setString(6,a.getMail());
-            prepare.setBlob(7,a.getImgFour());
+            prepare.setBytes(7,a.getImgFour());
             prepare.setString(8,a.getAdresseFour());
             prepare.executeUpdate();
             prepare.close();  
@@ -68,7 +68,7 @@ public class FournisseurDb {
                     res.getString("societe"),
                     res.getInt("telFour"),
                     res.getString("mail"),
-                    res.getBlob("imgFour"),
+                    res.getBytes("imgFour"),
                     res.getString("adresseFour"));
                     fourniseur.add(a);
                 }
@@ -92,7 +92,7 @@ public class FournisseurDb {
             prepare.setString(4, a.getSociete());
             prepare.setInt(5, a.getTelFour());
             prepare.setString(6, a.getMail());
-            prepare.setBlob(7, a.getImgFour());
+            prepare.setBytes(7, a.getImgFour());
             prepare.setString(8, a.getAdresseFour());
             prepare.executeUpdate();           
             

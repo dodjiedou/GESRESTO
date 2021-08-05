@@ -5,9 +5,17 @@
  */
 package main;
 
+import DatabaseOperation.CategorieDb;
 import Entites.Categorie;
 import java.awt.Font;
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import javafx.scene.paint.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -20,6 +28,7 @@ public class CatégorieUI extends javax.swing.JFrame {
     /**
      * Creates new form Home_Data
      */
+    byte[] categorie_image = null;
     public CatégorieUI() {
         initComponents();
         new JTable().setBackground(new java.awt.Color(0,0,0,0));
@@ -51,16 +60,16 @@ public class CatégorieUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        photo = new javax.swing.JLabel();
+        id = new javax.swing.JTextField();
+        description = new javax.swing.JTextField();
+        ajouter = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        choisir = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        libelle = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -202,27 +211,37 @@ public class CatégorieUI extends javax.swing.JFrame {
         jLabel4.setText("desciption");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, 30));
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setOpaque(true);
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 40, 150, 130));
+        photo.setBackground(new java.awt.Color(255, 255, 255));
+        photo.setOpaque(true);
+        jPanel3.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 40, 150, 130));
 
-        jTextField1.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
-        jTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
-        jPanel3.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 30));
+        id.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
+        id.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
+        jPanel3.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 190, 30));
 
-        jTextField3.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
-        jTextField3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        description.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
+        description.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
+        description.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                descriptionActionPerformed(evt);
             }
         });
-        jPanel3.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 530, 30));
+        jPanel3.add(description, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 530, 30));
 
-        jButton1.setBackground(new java.awt.Color(0, 51, 255));
-        jButton1.setForeground(new java.awt.Color(0, 51, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/images/icons8_plus_math_32.png"))); // NOI18N
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 70, 40));
+        ajouter.setBackground(new java.awt.Color(0, 51, 255));
+        ajouter.setForeground(new java.awt.Color(0, 51, 255));
+        ajouter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/images/icons8_plus_math_32.png"))); // NOI18N
+        ajouter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ajouterMousePressed(evt);
+            }
+        });
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajouterActionPerformed(evt);
+            }
+        });
+        jPanel3.add(ajouter, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 70, 40));
 
         jButton2.setBackground(new java.awt.Color(0, 51, 255));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/images/icons8_sort_by_modified_date_32.png"))); // NOI18N
@@ -236,19 +255,24 @@ public class CatégorieUI extends javax.swing.JFrame {
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/images/icons8_delete_trash_32.png"))); // NOI18N
         jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 160, 70, 40));
 
-        jButton5.setBackground(new java.awt.Color(0, 51, 255));
-        jButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton5.setText("....");
-        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 180, 60, 30));
+        choisir.setBackground(new java.awt.Color(0, 51, 255));
+        choisir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        choisir.setText("....");
+        choisir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                choisirMousePressed(evt);
+            }
+        });
+        jPanel3.add(choisir, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 180, 60, 30));
 
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 51, 255));
         jLabel12.setText("Libéllé");
         jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 50, 30));
 
-        jTextField9.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
-        jTextField9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
-        jPanel3.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, 300, 30));
+        libelle.setFont(new java.awt.Font("Leelawadee UI", 1, 12)); // NOI18N
+        libelle.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 51, 255)));
+        jPanel3.add(libelle, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, 300, 30));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/images/B E/2.3.jpg"))); // NOI18N
         jLabel13.setText(" ");
@@ -378,9 +402,9 @@ public class CatégorieUI extends javax.swing.JFrame {
         xy = evt.getY();
     }//GEN-LAST:event_jPanel3MousePressed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void descriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descriptionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_descriptionActionPerformed
 
     private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
        setColor(jPanel6);
@@ -424,6 +448,56 @@ public class CatégorieUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel5MousePressed
 
+    private void choisirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_choisirMousePressed
+       JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename =f.getAbsolutePath();
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(filename).getImage().getScaledInstance(photo.getWidth(), photo.getHeight(), Image.SCALE_DEFAULT));
+        photo.setIcon(imageIcon);
+       try {
+
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream (image);
+            ByteArrayOutputStream bos= new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+
+            for(int readNum; (readNum=fis.read(buf))!=-1; ){
+
+                bos.write(buf,0,readNum);
+            }
+            categorie_image=bos.toByteArray();
+
+    }                                       
+     catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+
+    }
+
+    }//GEN-LAST:event_choisirMousePressed
+
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
+      
+    }//GEN-LAST:event_ajouterActionPerformed
+
+    private void ajouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouterMousePressed
+Categorie categorie;
+      categorie=new Categorie(
+            libelle.getText(), 
+            description.getText(),
+            categorie_image );
+        try{
+            
+            CategorieDb.ajouterCategorie(categorie);
+           JOptionPane.showMessageDialog(this,"Ajout éffectué avec succes","Information",JOptionPane.INFORMATION_MESSAGE);    
+           //emptyForm();
+        } catch (Exception e) {
+            System.out.println("ExecutantGui.ajouterActionPerformed() "+e.getMessage());
+            JOptionPane.showMessageDialog(this,"Ajout échoué","Ereur",JOptionPane.ERROR_MESSAGE);
+         }
+       
+    }//GEN-LAST:event_ajouterMousePressed
+
      public void setColor(JPanel panel)
  {
      panel.setBackground(new java.awt.Color(197, 197, 197));
@@ -450,11 +524,13 @@ public class CatégorieUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton ajouter;
+    private javax.swing.JButton choisir;
+    private javax.swing.JTextField description;
+    private javax.swing.JTextField id;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -466,7 +542,6 @@ public class CatégorieUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -479,10 +554,9 @@ public class CatégorieUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField libelle;
+    private javax.swing.JLabel photo;
     // End of variables declaration//GEN-END:variables
 
     

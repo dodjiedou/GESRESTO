@@ -15,10 +15,10 @@ public class Fourniseur {
    private String prenomFour;
    private int telFour;
    private String mail;
-   private Blob imgFour;
+   private byte[] imgFour;
    private String adresseFour;
 
-    public Fourniseur(int idFour, String societe, String nomFour, String prenomFour, int telFour, String mail, Blob imgFour, String adresseFour) {
+    public Fourniseur(int idFour, String societe, String nomFour, String prenomFour, int telFour, String mail, byte[] imgFour, String adresseFour) {
         this.idFour = idFour;
         this.societe = societe;
         this.nomFour = nomFour;
@@ -77,11 +77,11 @@ public class Fourniseur {
         this.mail = mail;
     }
 
-    public Blob getImgFour() {
+    public byte[] getImgFour() {
         return imgFour;
     }
 
-    public void setImgFour(Blob imgFour) {
+    public void setImgFour(byte[] imgFour) {
         this.imgFour = imgFour;
     }
 

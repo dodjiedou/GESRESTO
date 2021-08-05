@@ -37,7 +37,7 @@ public class PersonnelUI extends javax.swing.JFrame {
      * Creates new form Home_Data
      */
     byte[] person_image = null;
-   // #^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\.[a-z]{2,5}$#",$_POST['mail']))
+   
     public PersonnelUI() {
         initComponents();
         new JTable().setBackground(new java.awt.Color(0,0,0,0));
@@ -634,7 +634,12 @@ public class PersonnelUI extends javax.swing.JFrame {
     }//GEN-LAST:event_typeActionPerformed
 
     private void ajouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouterMousePressed
-      //recuperation de la date saisie et son formatage
+      
+       if(!PersonnelDb.valider(mail.getText(), phone.getText())){
+           JOptionPane.showMessageDialog(this,"Email ou numéro de téléphone invalide","Information",JOptionPane.INFORMATION_MESSAGE);    
+       }else{
+
+//recuperation de la date saisie et son formatage
       //SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
       //String dateDuJour;
       //dateDuJour = sdf.format(date.getText());
@@ -682,6 +687,7 @@ public class PersonnelUI extends javax.swing.JFrame {
             System.out.println("ExecutantGui.ajouterActionPerformed() "+e.getMessage());
             JOptionPane.showMessageDialog(this,"Ajout échoué","Ereur",JOptionPane.ERROR_MESSAGE);
          }
+       }
     }//GEN-LAST:event_ajouterMousePressed
 
     private void modifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifierMousePressed
@@ -705,7 +711,7 @@ public class PersonnelUI extends javax.swing.JFrame {
     }//GEN-LAST:event_restaurerActionPerformed
 
     private void mailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mailKeyPressed
-       String email="#^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\\.[a-z]{2,5}$#\"";
+       String email="^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\\.[a-z]{2,5}$";
        Pattern patt=Pattern.compile(email);
        Matcher match=patt.matcher(mail.getText());
        if(!match.matches()){

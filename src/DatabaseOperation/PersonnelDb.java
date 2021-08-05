@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -123,6 +125,20 @@ public class PersonnelDb {
         }
         return false;
    }
+   
+    public static boolean valider(String mail,String phone) {
+       String email="^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\\.[a-z]{2,5}$";
+       String nb="^(9|7){1}[0-9]{7}$";
+       Pattern patt1=Pattern.compile(nb);
+       Pattern patt=Pattern.compile(email);
+       Matcher match1=patt1.matcher(phone);
+       Matcher match=patt.matcher(mail);
+       if(match.matches()|(match1.matches())){   
+           return true;
+       }else{
+          return false; 
+       }
+    }
 
     
 }

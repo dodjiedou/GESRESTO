@@ -9,30 +9,23 @@ import java.sql.Blob;
 import java.util.*;
 
 public class Categorie {
-   private int idCat;
+   
    private String libCat;
    private String descCat;
-   private Blob imgCat;
+   private byte[] imgCat;
    
    
    
-   public Categorie(int idCat,String libCat,
-           String descCat,Blob imgCat){
-       this.idCat=idCat;
+   public Categorie(String libCat,
+           String descCat,byte[] imgCat){
+       
        this.descCat=descCat;
        this.libCat=libCat;
        this.imgCat=imgCat;
        
    }
 
-    public int getIdCat() {
-        return idCat;
-    }
-
-    public void setIdCat(int idCat) {
-        this.idCat = idCat;
-    }
-
+   
     public String getLibCat() {
         return libCat;
     }
@@ -49,11 +42,11 @@ public class Categorie {
         this.descCat = descCat;
     }
 
-    public Blob getImgCat() {
+    public byte[] getImgCat() {
         return imgCat;
     }
 
-    public void setImgCat(Blob imgCat) {
+    public void setImgCat(byte[] imgCat) {
         this.imgCat = imgCat;
     }
      

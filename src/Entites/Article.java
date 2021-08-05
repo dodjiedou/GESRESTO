@@ -10,17 +10,17 @@ import java.sql.Blob;
 import java.util.*;
 
 public class Article {
-   private int idArt;
+   
    private String libArt;
    private String descripArticle;
    private double prixUnitaire;
-   private Blob imgArt;
+   private byte[] imgArt;
    private int IdCategorie;
 //,byte imgArt
           
-    public Article(int idArt,int idCategorie,String libArt,String descripArt,
-           double prixUnitaire,Blob imgArt){
-       this.idArt=idArt;
+    public Article(int idCategorie,String libArt,String descripArt,
+           double prixUnitaire,byte[] imgArt){
+       
        this.libArt=libArt;
        this.descripArticle=descripArt;
        this.prixUnitaire=prixUnitaire;
@@ -28,9 +28,7 @@ public class Article {
        this.IdCategorie=idCategorie;
    }
    
-   public int getIdArt() {
-        return idArt;
-    }
+   
 
     public String getLibArt() {
         return libArt;
@@ -44,7 +42,7 @@ public class Article {
         return prixUnitaire;
     }
 
-    public Blob getImgArt() {
+    public byte[] getImgArt() {
         return imgArt;
     }
     public int getIdCategorie() {
@@ -52,10 +50,7 @@ public class Article {
         
     }
     
-    public void setIdArt(int idArt) {
-        this.idArt = idArt;
-    }
-
+    
     public void setLibArt(String libArt) {
         this.libArt = libArt;
     }
@@ -68,18 +63,14 @@ public class Article {
         this.prixUnitaire = prixUnitaire;
     }
 
-    public void setImgArt(Blob imgArt) {
+    public void setImgArt(byte[] imgArt) {
         this.imgArt = imgArt;
     }
    public void setIdCategorie(int idCategorie) {
         this.IdCategorie = idCategorie;
     }
 
-    @Override
-    public String toString() {
-        return "Article{" + "idArt=" + idArt + ", libArt=" + libArt + ", descripArticle=" + descripArticle + ", prixUnitaire=" + prixUnitaire + ", imgArt=" + imgArt + ", IdCategorie=" + IdCategorie + '}';
-    }
-
+    
     
    
      

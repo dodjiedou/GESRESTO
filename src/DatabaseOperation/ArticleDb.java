@@ -25,12 +25,12 @@ public class ArticleDb {
 
             String sql="INSERT INTO article (IDArticle,IDCategorie,lbArt,descripArticle,prixUnitaire,imgArt) VALUES (?,?,?,?,?,?)";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1,a.getIdArt());
-            prepare.setInt(2,a.getIdCategorie());
-            prepare.setString(3,a.getLibArt());
-            prepare.setString(4,a.getDescripArticle());
-            prepare.setDouble(5,a.getPrixUnitaire());
-            prepare.setBlob(6,a.getImgArt());
+            
+            prepare.setInt(1,a.getIdCategorie());
+            prepare.setString(2,a.getLibArt());
+            prepare.setString(3,a.getDescripArticle());
+            prepare.setDouble(4,a.getPrixUnitaire());
+            prepare.setBytes(5,a.getImgArt());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -49,12 +49,12 @@ public class ArticleDb {
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     a=new Article(
-                    res.getInt("IDArticle"),
+                    
                     res.getInt("IDCategorie"),
                     res.getString("lbArt"),
                     res.getString("descripArticle"),
                     res.getDouble("prixUnitaire"),
-                    res.getBlob("imgArt"));
+                    res.getBytes("imgArt"));
                     article.add(a);
                 }
                 return article;        
