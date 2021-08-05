@@ -7,7 +7,6 @@ package Entites;
 
 import DatabaseOperation.ArticleDb;
 import DatabaseOperation.PersonnelDb;
-import DatabaseOperation.UserDb;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -111,7 +110,7 @@ public class test {
       UserDb.ajouterUser(u3);
         System.out.println(UserDb.login("edod","essi1996"));
     */
-          login ma = new login();
+        login ma = new login();
         ma.setVisible(true);
         
       

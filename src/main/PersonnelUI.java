@@ -7,9 +7,7 @@ package main;
 
 import DatabaseOperation.Connexion;
 import DatabaseOperation.PersonnelDb;
-import DatabaseOperation.UserDb;
 import Entites.Personnel;
-import Entites.User;
 //import Entites.PersonnelUI ;
 import java.awt.Font;
 import java.awt.Image;
@@ -529,7 +527,7 @@ public class PersonnelUI extends javax.swing.JFrame {
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
         String type;
-      type=UserDb.getAccueil();
+      type=PersonnelDb.getAccueil();
         switch (type) {
                 case "Admin":
                    new AdminUI().setVisible(true);
@@ -648,6 +646,8 @@ public class PersonnelUI extends javax.swing.JFrame {
       personnel=new Personnel(
             nom.getText(), 
             prenom.getText(),
+            username.getText(),
+            password.getText(),
             Integer.parseInt(phone.getText()),
             mail.getText(),
             date.getText(),
@@ -659,29 +659,7 @@ public class PersonnelUI extends javax.swing.JFrame {
         try{
             
             PersonnelDb.ajouterPersonnel(personnel);
-            
-           if("Admin".equals(type.getSelectedItem().toString())
-               ||"Gerant".equals(type.getSelectedItem().toString())
-               ||"Serveur".equals(type.getSelectedItem().toString())){
-                
-                //Creation d'un user
-               User user;
-               user=new User(
-                username.getText(),
-                password.getText(),
-                nom.getText(), 
-                prenom.getText(),
-                Integer.parseInt(phone.getText()),
-                mail.getText(), 
-                date.getText(),
-                Double.parseDouble(salaire.getText()), 
-                person_image,
-                adresse.getText(),
-                type.getSelectedItem().toString()
-               );
-               UserDb.ajouterUser(user);
-           }
-           JOptionPane.showMessageDialog(this,"Ajout éffectué avec succes","Information",JOptionPane.INFORMATION_MESSAGE);    
+            JOptionPane.showMessageDialog(this,"Ajout éffectué avec succes","Information",JOptionPane.INFORMATION_MESSAGE);    
            emptyForm();
         } catch (Exception e) {
             System.out.println("ExecutantGui.ajouterActionPerformed() "+e.getMessage());

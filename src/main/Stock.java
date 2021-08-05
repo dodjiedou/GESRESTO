@@ -5,7 +5,7 @@
  */
 package main;
 
-import DatabaseOperation.UserDb;
+import DatabaseOperation.PersonnelDb;
 import java.awt.Font;
 import javafx.scene.paint.Color;
 import javax.swing.JPanel;
@@ -414,7 +414,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void jLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MousePressed
         String type;
-      type=UserDb.getAccueil();
+      type=PersonnelDb.getAccueil();
         switch (type) {
                 case "Admin":
                    new AdminUI().setVisible(true);

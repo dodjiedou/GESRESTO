@@ -5,7 +5,8 @@
  */
 package main;
 
-import DatabaseOperation.UserDb;
+import DatabaseOperation.PersonnelDb;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -149,25 +150,25 @@ public class login extends javax.swing.JFrame {
        String ac;
        
        try{
-            type=UserDb.login(UserName.getText(),passWord.getText());
+            type=PersonnelDb.login(UserName.getText(),passWord.getText());
                 switch (type) {
                 case "Admin":
                    AdminUI ad = new AdminUI();
                    ad.setVisible(true);
-                   UserDb.setAccueil("Admin");
+                   PersonnelDb.setAccueil("Admin");
                    this.dispose();
                     break;
                 case "Gerant":
                     GerantUI st = new GerantUI ();
                     st.setVisible(true);
-                    UserDb.setAccueil("Gerant");
+                    PersonnelDb.setAccueil("Gerant");
                     this.dispose();
                  
                     break;
                 case "Serveur":
                     CommandeUi cm = new CommandeUi();
                     cm.setVisible(true);
-                    UserDb.setAccueil("Serveur");
+                    PersonnelDb.setAccueil("Serveur");
                     this.dispose();
                    
                     break;

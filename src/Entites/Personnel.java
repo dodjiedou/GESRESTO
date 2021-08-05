@@ -21,14 +21,20 @@ public class Personnel {
    private byte[] imgPesonnel;
    private String adresse;
    private String type;
+    private String userName;
+   private String password;
+
 
     public Personnel( String nom, 
-            String prenom, int tel, String Email, String datEmbauch,
+            String prenom,String userName,String password,  int tel, String Email, 
+            String datEmbauch,
             double salaireMensuel,byte[]  imgPesonnel,
             String adresse,String type) {
     
         this.nom = nom;
         this.prenom = prenom;
+        this.userName=userName;
+        this.password=password;
         this.tel = tel;
         this.Email = Email;
         this.datEmbauch = datEmbauch;
@@ -111,6 +117,23 @@ public class Personnel {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     
    
    

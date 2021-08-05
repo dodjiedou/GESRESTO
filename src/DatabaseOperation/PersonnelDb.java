@@ -36,19 +36,21 @@ public class PersonnelDb {
      try{
 
             String sql="INSERT INTO personnel ("
-                    + "nom,prenom,tel,Email,"
+                    + "nom,prenom,userName,password,tel,Email,"
                     + "dateEmbauche,salaireMensuel,imagePesonnel,"
-                    + "adresse,type) VALUES (?,?,?,?,?,?,?,?,?)";
+                    + "adresse,type) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             prepare =getConnection().prepareStatement(sql);
             prepare.setString(1,a.getNom());
             prepare.setString(2,a.getPrenom());
-            prepare.setInt(3, (int) a.getTel());
-            prepare.setString(4,a.getEmail());
-            prepare.setString(5, a.getDatEmbauch());
-            prepare.setDouble(6,a.getSalaireMensuel());
-            prepare.setBytes(7,a.getImgPesonnel());
-            prepare.setString(8,a.getAdresse());
-            prepare.setString(9,a.getType());
+            prepare.setString(3,a.getUserName());
+            prepare.setString(4,a.getPassword());
+            prepare.setInt(5, (int) a.getTel());
+            prepare.setString(6,a.getEmail());
+            prepare.setString(7, a.getDatEmbauch());
+            prepare.setDouble(8,a.getSalaireMensuel());
+            prepare.setBytes(9,a.getImgPesonnel());
+            prepare.setString(10,a.getAdresse());
+            prepare.setString(11,a.getType());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -69,6 +71,8 @@ public class PersonnelDb {
                     a=new Personnel(
                     res.getString("nom"),
                     res.getString("prenom"),
+                    res.getString("userName"),
+                    res.getString("password"),
                     res.getInt("tel"),
                     res.getString("Email"),
                     res.getString("dateEmbauche"),
@@ -89,20 +93,22 @@ public class PersonnelDb {
    public static void modifierPersonnel(Personnel a) {
       try {
             String sql="UPDATE personnel SET "
-                    + " nom=?,prenom=?,tel=?,Email=?,"
+                    + " nom=?,prenom=?,userName=?,password=?,tel=?,Email=?,"
                     + "dateEmbauche=?,alaireMensuel=?,imagePesonnel=?,"
                     + " adresse=?,type=?"
                     + "WHERE IDPersonnele=?";
             prepare =getConnection().prepareStatement(sql);
             prepare.setString(1, a.getNom());
             prepare.setString(2, a.getPrenom());
-            prepare.setInt(3, (int) a.getTel());
-            prepare.setString(4, a.getEmail());
-            prepare.setString(5,a.getDatEmbauch());
-            prepare.setDouble(6, a.getSalaireMensuel());
-            prepare.setBytes(7, a.getImgPesonnel());
-            prepare.setString(8, a.getAdresse());
-            prepare.setString(9, a.getType());
+            prepare.setString(3, a.getUserName());
+            prepare.setString(4, a.getPassword());
+            prepare.setInt(5, (int) a.getTel());
+            prepare.setString(6, a.getEmail());
+            prepare.setString(7,a.getDatEmbauch());
+            prepare.setDouble(8, a.getSalaireMensuel());
+            prepare.setBytes(9, a.getImgPesonnel());
+            prepare.setString(10, a.getAdresse());
+            prepare.setString(11, a.getType());
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {
@@ -125,6 +131,39 @@ public class PersonnelDb {
         }
         return false;
    }
+   
+   
+   public static String login(String username,String password){
+      String type="";
+      int i=0;
+       try {
+            
+           String req="SELECT type FROM "
+           + "personnel WHERE UserName=? and PassWord=?  ";
+                        
+           prepare =getConnection().prepareStatement(req);
+           prepare.setString(1,username);
+           prepare.setString(2,password);
+            ResultSet res2=prepare.executeQuery();
+                while(res2.next()){
+                   type=res2.getString("type");
+                }
+                return type;
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+   }
+  private static String accueil="";
+     public static String getAccueil() {
+        return accueil;
+    }
+
+    public static void setAccueil(String ac) {
+        accueil = ac;
+    }
+     
    
     public static boolean valider(String mail,String phone) {
        String email="^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\\.[a-z]{2,5}$";
