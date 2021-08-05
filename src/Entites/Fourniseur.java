@@ -9,7 +9,6 @@ import java.sql.Blob;
 import java.util.*;
 
 public class Fourniseur {
-   private int idFour;
    private String societe;
    private String nomFour;
    private String prenomFour;
@@ -18,8 +17,7 @@ public class Fourniseur {
    private byte[] imgFour;
    private String adresseFour;
 
-    public Fourniseur(int idFour, String societe, String nomFour, String prenomFour, int telFour, String mail, byte[] imgFour, String adresseFour) {
-        this.idFour = idFour;
+    public Fourniseur(String societe, String nomFour, String prenomFour, int telFour, String mail, byte[] imgFour, String adresseFour) {
         this.societe = societe;
         this.nomFour = nomFour;
         this.prenomFour = prenomFour;
@@ -27,14 +25,6 @@ public class Fourniseur {
         this.mail = mail;
         this.imgFour = imgFour;
         this.adresseFour = adresseFour;
-    }
-
-    public int getIdFour() {
-        return idFour;
-    }
-
-    public void setIdFour(int idFour) {
-        this.idFour = idFour;
     }
 
     public String getSociete() {

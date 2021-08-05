@@ -10,11 +10,13 @@ import java.util.*;
 
 public class composer {
    private int quantite;
-   public Article articleB;
+   public int idArt;
+   public int idMp;
 
-    public composer(int quantite, Article articleB) {
+    public composer(int quantite, int idArt, int idMp) {
         this.quantite = quantite;
-        this.articleB = articleB;
+        this.idArt = idArt;
+        this.idMp = idMp;
     }
 
     public int getQuantite() {
@@ -25,14 +27,22 @@ public class composer {
         this.quantite = quantite;
     }
 
-    public Article getArticleB() {
-        return articleB;
+    public int getIdArt() {
+        return idArt;
     }
 
-    public void setArticleB(Article articleB) {
-        this.articleB = articleB;
+    public void setIdArt(int idArt) {
+        this.idArt = idArt;
     }
-   
-   
+
+    public int getIdMp() {
+        return idMp;
+    }
+
+    public void setIdMp(int idMp) {
+        this.idMp = idMp;
+    }
+
+       
 
 }

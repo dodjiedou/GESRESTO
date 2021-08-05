@@ -30,13 +30,11 @@ public class CommandeDb {
     public static void ajouterCommande(Commande a) {
       try{
 
-            String sql="INSERT INTO commande (IDCommande,IDPersonnel,dateCommande,mntCommande,etatCommande) VALUES (?,?,?,?,?)";
+            String sql="INSERT INTO commande (IDPersonnel,dateCommande,mntCommande) VALUES (?,?,?)";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1,a.getIdCmd());
-            prepare.setInt(2,a.getIdpersonne());
-            prepare.setString(3,a.getDateCommande());
-            prepare.setDouble(4,a.getMntCommande());
-            prepare.setString(5,a.getEtatCommande());
+            prepare.setInt(1,a.getIdpersonne());
+            prepare.setString(2,a.getDateCommande());
+            prepare.setDouble(3,a.getMntCommande());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -51,15 +49,13 @@ public class CommandeDb {
        
         try {
             
-                String req="SELECT IDCommande,IDPersonnel,dateCommande,mntCommande,etatCommande FROM commande";
+                String req="SELECT IDPersonnel,dateCommande,mntCommande FROM commande";
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     a=new Commande(
-                    res.getInt("IDCommande"),
                     res.getInt("IDPersonnel"),
                     res.getString("dateCommande"),
-                    res.getDouble("mntCommande"),
-                    res.getString("etatCommande"));
+                    res.getDouble("mntCommande"));
                     commande.add(a);
                 }
                 return commande;        
@@ -69,15 +65,13 @@ public class CommandeDb {
         return null;
    }
    
-   public static void modifierCommande(Commande a) {
+   public static void modifierCommande(Commande a,int id) {
       try {
-            String sql="UPDATE commande SET IDCommande=?, IDPersonnel=?,dateCommande=?,mntCommande=?,etatCommande=? WHERE IDCommande=?";
+            String sql="UPDATE commande SET dateCommande=?,mntCommande=? WHERE IDCommande=?";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1, a.getIdCmd());
-            prepare.setInt(2, a.getIdpersonne());
-            prepare.setString(3, a.getDateCommande());
-            prepare.setDouble(4, a.getMntCommande());
-            prepare.setString(5, a.getEtatCommande());
+            prepare.setString(1, a.getDateCommande());
+            prepare.setDouble(2, a.getMntCommande());
+            prepare.setInt(3, id);
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {

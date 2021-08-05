@@ -23,9 +23,8 @@ public class ArticleDb {
     public static void ajouterArticle(Article a){
      try{
 
-            String sql="INSERT INTO article (IDArticle,IDCategorie,lbArt,descripArticle,prixUnitaire,imgArt) VALUES (?,?,?,?,?,?)";
+            String sql="INSERT INTO article (IDCategorie,lbArt,descripArticle,prixUnitaire,imgArt) VALUES (?,?,?,?,?)";
             prepare =getConnection().prepareStatement(sql);
-            
             prepare.setInt(1,a.getIdCategorie());
             prepare.setString(2,a.getLibArt());
             prepare.setString(3,a.getDescripArticle());
@@ -49,7 +48,6 @@ public class ArticleDb {
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     a=new Article(
-                    
                     res.getInt("IDCategorie"),
                     res.getString("lbArt"),
                     res.getString("descripArticle"),
@@ -65,7 +63,7 @@ public class ArticleDb {
    }
 
       
-   public static void modifierArticle(Article a) {
+   public static void modifierArticle(Article a,int id) {
       try {
             String sql="UPDATE article SET IDCategorie=?, lbArt=?,descripArticle=?,prixUnitaire=? WHERE IDArticle=?";
             prepare =getConnection().prepareStatement(sql);
@@ -73,7 +71,7 @@ public class ArticleDb {
             prepare.setString(2, a.getLibArt());
             prepare.setString(3, a.getDescripArticle());
             prepare.setDouble(4, a.getPrixUnitaire());
-            prepare.setInt(5, a.getIdArt());
+            prepare.setInt(5,id);
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {

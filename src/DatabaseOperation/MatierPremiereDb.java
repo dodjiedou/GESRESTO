@@ -30,13 +30,12 @@ public class MatierPremiereDb {
     public static void ajouter(MatierPremiere a){
      try{
 
-            String sql="INSERT INTO matierepremiere (IDMatierePremiere,IDFournisseur,designationMp,PrixAchat,imageFac) VALUES (?,?,?,?,?)";
+            String sql="INSERT INTO matierepremiere (IDFournisseur,designationMp,PrixAchat,imageFac) VALUES (?,?,?,?)";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1,a.getIdMp());
-            prepare.setInt(2,a.getIDFournisseur());
-            prepare.setString(3,a.getDesignationMp());
-            prepare.setDouble(4,a.getPrixAchat());
-            prepare.setBytes(5,a.getImageFac());
+            prepare.setInt(1,a.getIDFournisseur());
+            prepare.setString(2,a.getDesignationMp());
+            prepare.setDouble(3,a.getPrixAchat());
+            prepare.setBytes(4,a.getImageFac());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -55,7 +54,6 @@ public class MatierPremiereDb {
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     a=new MatierPremiere(
-                    res.getInt("IDMatierePremiere"),
                     res.getString("designationMp"),
                     res.getDouble("PrixAchat"),
                     res.getBytes("imageFac"),
@@ -70,15 +68,15 @@ public class MatierPremiereDb {
    }
 
       
-   public static void modifier(MatierPremiere a) {
+   public static void modifier(MatierPremiere a,int id) {
       try {
-            String sql="UPDATE matierepremiere SET IDMatierePremiere=?,IDFournisseur=?,designationMp=?,PrixAchat=?,imageFac=? WHERE IDMatierePremiere=?";
+            String sql="UPDATE matierepremiere SET IDFournisseur=?,designationMp=?,PrixAchat=?,imageFac=? WHERE IDMatierePremiere=?";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1, a.getIdMp());
-            prepare.setInt(2, a.getIDFournisseur());
-            prepare.setString(3, a.getDesignationMp());
-            prepare.setDouble(4, a.getPrixAchat());
-            prepare.setBytes(5, a.getImageFac());
+            prepare.setInt(1, a.getIDFournisseur());
+            prepare.setString(2, a.getDesignationMp());
+            prepare.setDouble(3, a.getPrixAchat());
+            prepare.setBytes(4, a.getImageFac());
+            prepare.setInt(5,id);
             prepare.executeUpdate();           
             
         } catch (SQLException ex) {

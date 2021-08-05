@@ -10,11 +10,13 @@ import java.util.*;
 
 public class LigneComm {
    private int qteCmd;
-   public Article article;
+   public int  id_art;
+   public int id_com;
 
-    public LigneComm(int qteCmd, Article article) {
+    public LigneComm(int qteCmd, int id_art, int id_com) {
         this.qteCmd = qteCmd;
-        this.article = article;
+        this.id_art = id_art;
+        this.id_com = id_com;
     }
 
     public int getQteCmd() {
@@ -25,14 +27,23 @@ public class LigneComm {
         this.qteCmd = qteCmd;
     }
 
-    public Article getArticle() {
-        return article;
+    public int getId_art() {
+        return id_art;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setId_art(int id_art) {
+        this.id_art = id_art;
     }
-   
+
+    public int getId_com() {
+        return id_com;
+    }
+
+    public void setId_com(int id_com) {
+        this.id_com = id_com;
+    }
+
+    
   
 
 }

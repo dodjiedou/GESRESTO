@@ -10,27 +10,17 @@ import java.sql.Blob;
 import java.util.*;
 
 public class MatierPremiere {
-   private int idMp;
    private String designationMp;
    private double prixAchat;
    private byte[] imageFac;
    private int IDFournisseur;
 
-    public MatierPremiere(int idMp, String designationMp, 
+    public MatierPremiere(String designationMp, 
             double prixAchat, byte[] imageFac,int IDFournisseur) {
-        this.idMp = idMp;
         this.designationMp = designationMp;
         this.prixAchat = prixAchat;
         this.imageFac = imageFac;
         this.IDFournisseur=IDFournisseur;
-    }
-
-    public int getIdMp() {
-        return idMp;
-    }
-
-    public void setIdMp(int idMp) {
-        this.idMp = idMp;
     }
 
     public String getDesignationMp() {

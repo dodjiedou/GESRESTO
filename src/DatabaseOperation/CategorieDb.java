@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DatabaseOperation;
 
 import static DatabaseOperation.Connexion.getConnection;
@@ -66,11 +62,11 @@ public class CategorieDb {
         return null;
    }
    
-   public static void modifierCategorie(Categorie a) {
+   public static void modifierCategorie(Categorie a,int id) {
       try {
             String sql="UPDATE Categorie SET IDCategorie=?, libCat=?,desCat=?,imgCat=? WHERE IDCategorie=?";
             prepare =getConnection().prepareStatement(sql);
-            prepare.setInt(1, a.getIdCat());
+            prepare.setInt(1, id);
             prepare.setString(2, a.getLibCat());
             prepare.setString(3, a.getDescCat());
             prepare.setBytes(4, a.getImgCat());

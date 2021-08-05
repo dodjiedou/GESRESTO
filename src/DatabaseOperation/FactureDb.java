@@ -28,10 +28,9 @@ public class FactureDb {
     public static void ajouterFacture(Facture a) {
       try{
 
-            String sql="INSERT INTO facture (IDFacture,IDCommande) VALUES (?,?)";
+            String sql="INSERT INTO facture (IDCommande) VALUES (?)";
             prepare = getConnection().prepareStatement(sql);
-            prepare.setInt(1,a.getIdFac());
-            prepare.setInt(2,a.getIdCmd());
+            prepare.setInt(1,a.getIdCmd());
             prepare.executeUpdate();
             prepare.close();  
         }catch(SQLException ex){
@@ -50,7 +49,6 @@ public class FactureDb {
                 ResultSet res=getStatement().executeQuery(req);
                 while(res.next()){
                     a=new Facture(
-                    res.getInt("IDFacture"),
                     res.getInt("IDCommande"));
                     facture.add(a);
                 }
