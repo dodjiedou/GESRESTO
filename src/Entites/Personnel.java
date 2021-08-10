@@ -134,6 +134,10 @@ public class Personnel {
         this.password = password;
     }
     
+    public Object[] toObject() {
+        return new Object[]{nom ,prenom,userName,password,
+        Email,tel+"   ",datEmbauch};
+    }
     
    
    

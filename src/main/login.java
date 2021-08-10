@@ -173,7 +173,7 @@ public class login extends javax.swing.JFrame {
                    
                     break;
                 default:
-                    JOptionPane.showMessageDialog(this,"identifiant ou mot de passe incorrect","Information",JOptionPane.INFORMATION_MESSAGE);    
+                    JOptionPane.showMessageDialog(this,"Utilisateur inexistant","Information",JOptionPane.INFORMATION_MESSAGE);    
                    
                     break;
             }

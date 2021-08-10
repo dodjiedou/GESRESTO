@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -24,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -35,17 +39,66 @@ public class PersonnelUI extends javax.swing.JFrame {
      * Creates new form Home_Data
      */
     byte[] person_image = null;
+    String ad=null;
+    private DefaultTableModel tableModel;
+    private Vector<Personnel> pres;
+    private Vector colums;
+    private Personnel selectedPerson;
+    private int row;
+
    
     public PersonnelUI() {
         initComponents();
         new JTable().setBackground(new java.awt.Color(0,0,0,0));
-        
         table_pers.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
         table_pers.getTableHeader().setOpaque(false);
         table_pers.getTableHeader().setBackground(new java.awt.Color(153,153,153));
         table_pers.getTableHeader().setForeground(new java.awt.Color(255,255,255));
         table_pers.setRowHeight(25);
+        
+        loadDataTable();
     }
+    
+    private void loadDataTable(){
+      
+        try {
+            
+            table_pers.setModel(PersonnelDb.tablePersonn());
+            tableModel=(DefaultTableModel) table_pers.getModel();
+              
+        } catch (Exception e) {
+        }        
+    }
+     
+    private void fillForm(){
+           try{
+            row =table_pers.getSelectedRow();
+            nom.setText(tableModel.getValueAt(row,1).toString()); 
+            prenom.setText(tableModel.getValueAt(row,2).toString());
+            username.setText(tableModel.getValueAt(row,3).toString());
+            password.setText(tableModel.getValueAt(row,4).toString());
+            phone.setText(tableModel.getValueAt(row,5).toString());
+            mail.setText(tableModel.getValueAt(row,6).toString());
+            date.setText(tableModel.getValueAt(row,7).toString());
+            salaire.setText(tableModel.getValueAt(row,8).toString());
+           // photo.setIcon(tableModel.getValueAt(row,7).equals(person_image));
+           adresse.setText(tableModel.getValueAt(row,10).toString());
+           }catch(Exception e){
+               
+           }
+        
+                      
+    }
+
+     private void EnableField(){
+            mail.setText("a");
+            mail.setEnabled(false); 
+            salaire.setText("");
+            salaire.setEnabled(false);
+            adresse.setText("");
+            adresse.setEnabled(false); 
+
+     }
     
      private void emptyForm(){
             nom.setText(""); 
@@ -53,11 +106,46 @@ public class PersonnelUI extends javax.swing.JFrame {
             phone.setText("");
             mail.setText("");
             date.setText("");
-            salaire.setText(""); 
+            salaire.setText("");
             photo.setIcon(null);
             adresse.setText("");
             username.setText("");
             password.setText("");
+    }
+     
+     private Personnel creerPersonnel(){
+            ad=adresse.getText();
+            Personnel personnel;
+            personnel=new Personnel(
+            nom.getText(), 
+            prenom.getText(),
+            username.getText(),
+            password.getText(),
+            Integer.parseInt(phone.getText()),
+            mail.getText(),
+            date.getText(),
+            Double.parseDouble(salaire.getText()), 
+            person_image,
+            ad,
+            type.getSelectedItem().toString()
+             );
+            return personnel;
+     }
+     private boolean estvide(){
+         if( nom.getText() == null||  
+            prenom.getText() == null||  
+            phone.getText() == null||
+            mail.getText() == null||
+            date.getText() == null||
+            salaire.getText() == null|| 
+            username.getText() == null||
+            password.getText() == null){
+           return true;
+         }else{
+           return false;
+
+         }
+         
     }
      
     @SuppressWarnings("unchecked")
@@ -414,17 +502,38 @@ public class PersonnelUI extends javax.swing.JFrame {
 
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        table_pers.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         table_pers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "idFour", "Société", "Nom", "Prénom", "Adresse", "Téléphone", "E_mail"
+                "Nom", "Prenom", "identifiant", "mot de psse", "E_mail", "Telephone", "Date d'embauche", "Title 8"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Byte.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table_pers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_persMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                table_persMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_pers);
 
         jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 800, 250));
@@ -632,52 +741,93 @@ public class PersonnelUI extends javax.swing.JFrame {
     }//GEN-LAST:event_typeActionPerformed
 
     private void ajouterMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouterMousePressed
-      
-       if(!PersonnelDb.valider(mail.getText(), phone.getText())){
-           JOptionPane.showMessageDialog(this,"Email ou numéro de téléphone invalide","Information",JOptionPane.INFORMATION_MESSAGE);    
-       }else{
 
-//recuperation de la date saisie et son formatage
-      //SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-      //String dateDuJour;
-      //dateDuJour = sdf.format(date.getText());
-     //Creation d'un personnel
-      Personnel personnel;
-      personnel=new Personnel(
-            nom.getText(), 
-            prenom.getText(),
-            username.getText(),
-            password.getText(),
-            Integer.parseInt(phone.getText()),
-            mail.getText(),
-            date.getText(),
-            Double.parseDouble(salaire.getText()), 
-            person_image,
-            adresse.getText(),
-            type.getSelectedItem().toString()
-             );
         try{
-            
-            PersonnelDb.ajouterPersonnel(personnel);
-            JOptionPane.showMessageDialog(this,"Ajout éffectué avec succes","Information",JOptionPane.INFORMATION_MESSAGE);    
-           emptyForm();
+            if(estvide()){
+                 JOptionPane.showMessageDialog(this,"Champ obligatoire vide","Information",JOptionPane.INFORMATION_MESSAGE);    
+
+            }else{
+                   if(!PersonnelDb.valider(mail.getText(), phone.getText())){
+                     JOptionPane.showMessageDialog(this,"Email ou numéro de téléphone invalide","Information",JOptionPane.INFORMATION_MESSAGE);    
+                   }else{
+                      PersonnelDb.ajouterPersonnel(creerPersonnel());
+                      emptyForm();
+                      loadDataTable();
+                      JOptionPane.showMessageDialog(this,"Ajout éffectué avec succes","Information",JOptionPane.INFORMATION_MESSAGE);    
+                      
+                      
+                    }
+
+            }
         } catch (Exception e) {
             System.out.println("ExecutantGui.ajouterActionPerformed() "+e.getMessage());
             JOptionPane.showMessageDialog(this,"Ajout échoué","Ereur",JOptionPane.ERROR_MESSAGE);
          }
-       }
+       
     }//GEN-LAST:event_ajouterMousePressed
 
     private void modifierMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifierMousePressed
-        // TODO add your handling code here:
+      try{
+          if(person_image==null){
+              
+                selectedPerson.setNom(nom.getText());
+                selectedPerson.setPrenom(prenom.getText());
+                selectedPerson.setUserName(username.getText());
+                selectedPerson.setPassword(password.getText());
+                selectedPerson.setTel(Integer.parseInt(phone.getText()));
+                selectedPerson.setEmail(mail.getText());
+                selectedPerson.setSalaireMensuel(Double.parseDouble(salaire.getText()));
+                selectedPerson.setAdresse(adresse.getText());
+                selectedPerson.setType(type.getSelectedItem().toString());
+                selectedPerson.setDatEmbauch(date.getText());
+                selectedPerson.setImgPesonnel(selectedPerson.getImgPesonnel());
+                row =table_pers.getSelectedRow();
+                int ID=(int) tableModel.getValueAt(row,0); 
+                PersonnelDb.modifierPersonnel(selectedPerson,ID);
+                emptyForm();
+                loadDataTable();
+              
+          }else{
+                selectedPerson.setNom(nom.getText());
+                selectedPerson.setPrenom(prenom.getText());
+                selectedPerson.setUserName(username.getText());
+                selectedPerson.setPassword(password.getText());
+                selectedPerson.setTel(Integer.parseInt(phone.getText()));
+                selectedPerson.setEmail(mail.getText());
+                selectedPerson.setSalaireMensuel(Double.parseDouble(salaire.getText()));
+                selectedPerson.setAdresse(adresse.getText());
+                selectedPerson.setType(type.getSelectedItem().toString());
+                selectedPerson.setDatEmbauch(date.getText());
+                selectedPerson.setImgPesonnel(person_image);
+                row =table_pers.getSelectedRow();
+                int ID=(int) tableModel.getValueAt(row,0); 
+                PersonnelDb.modifierPersonnel(selectedPerson,ID);
+                emptyForm();
+                loadDataTable();
+          }
+       
+
+      }catch (Exception e) {
+          
+      }
+                
     }//GEN-LAST:event_modifierMousePressed
 
     private void restaurerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restaurerMousePressed
-            emptyForm();
+         emptyForm();
     }//GEN-LAST:event_restaurerMousePressed
 
     private void supprimerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimerMousePressed
-        // TODO add your handling code here:
+       try{
+       emptyForm();
+       row =table_pers.getSelectedRow();
+       int ID=(int) tableModel.getValueAt(row,0); 
+       PersonnelDb.supprimerPersonnel(ID);
+       tableModel.removeRow(row);
+       }catch (Exception e) {
+           
+       }
+       
     }//GEN-LAST:event_supprimerMousePressed
 
     private void choisirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_choisirMousePressed
@@ -689,14 +839,32 @@ public class PersonnelUI extends javax.swing.JFrame {
     }//GEN-LAST:event_restaurerActionPerformed
 
     private void mailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mailKeyPressed
-       String email="^[a-z]{5,}[0-9]{2,4}@[a-z]{5,10}\\.[a-z]{2,5}$";
-       Pattern patt=Pattern.compile(email);
-       Matcher match=patt.matcher(mail.getText());
-       if(!match.matches()){
-           
-       }
+       
         // TODO add your handling code here:
     }//GEN-LAST:event_mailKeyPressed
+
+    private void table_persMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_persMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_persMousePressed
+
+    private void table_persMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_persMouseClicked
+       
+        selectedPerson=new Personnel(
+            tableModel.getValueAt(row,1).toString(), 
+            tableModel.getValueAt(row,2).toString(),
+            tableModel.getValueAt(row,3).toString(),
+            tableModel.getValueAt(row,4).toString(),
+            (int)tableModel.getValueAt(row,5),
+            tableModel.getValueAt(row,6).toString(),
+            tableModel.getValueAt(row,7).toString(),
+            (double)tableModel.getValueAt(row,8), 
+            (byte[]) tableModel.getValueAt(row,9),
+            tableModel.getValueAt(row,10).toString(),
+            tableModel.getValueAt(row,11).toString());
+            fillForm();
+        
+
+    }//GEN-LAST:event_table_persMouseClicked
 
      
      public void setColor(JPanel panel)
